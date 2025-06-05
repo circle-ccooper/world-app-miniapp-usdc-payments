@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# World Chain T-Shirt Store Mini App
+
+A sample mini app for World App that demonstrates how to build a bot-proof e-commerce experience using World ID for human verification and USDC (USDC.e) as the payment method, powered by the MiniKit-JS SDK.
+
+## Features
+- **World ID Human Verification**: Only verified humans can access and purchase items.
+- **USDC Payments**: Accepts USDC (USDC.e) payments natively inside World App using the Pay Command.
+- **Modern UI**: Clean, mobile-friendly interface.
+
+## Prerequisites
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/) or [yarn](https://yarnpkg.com/)
+- [World App Developer Account](https://developer.worldcoin.org/)
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-org/world-chain-tshirt-store.git
+cd world-chain-tshirt-store
+```
 
+### 2. Install Dependencies
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### 3. Configure Environment Variables
+Create a `.env.local` file in the root directory and add your World App credentials:
+
+```env
+NEXT_PUBLIC_APP_ID=your_world_app_id
+DEV_PORTAL_API_KEY=your_dev_portal_api_key
+```
+
+- `NEXT_PUBLIC_APP_ID`: Your World App Mini App ID
+- `DEV_PORTAL_API_KEY`: Your World App Developer Portal API Key
+
+### 4. Run the Development Server
 ```bash
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Code Structure
+```
+app/
+  layout.tsx         # App layout, wraps with MiniKitProvider
+  page.tsx           # Main T-shirt store UI and logic
+components/
+  minikit-provider.tsx # Initializes MiniKit SDK
+  ui/                # UI components (Button, etc.)
+public/
+  world-tshirt.png   # T-shirt product image
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Integration Points
 
-## Learn More
+### World ID Verification
+```tsx
+const handleVerify = async () => {
+  const verifyPayload = {
+    action: "access_tshirt_store",
+    verification_level: VerificationLevel.Orb,
+  }
+  const { finalPayload } = await MiniKit.commandsAsync.verify(verifyPayload)
+  // Send proof to backend for validation
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+### USDC Payment with Pay Command
+```tsx
+const paymentPayload = {
+  reference: id,
+  to: "0xYourMerchantWalletAddress",
+  tokens: [
+    {
+      symbol: Tokens.USDCE,
+      token_amount: tokenToDecimals(25, Tokens.USDCE).toString(),
+    },
+  ],
+  description: "World Chain T-Shirt",
+}
+const { finalPayload } = await MiniKit.commandsAsync.pay(paymentPayload)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
+This app is ready to deploy on [Vercel](https://vercel.com/) or any platform that supports Next.js.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
+MIT
 
-## Deploy on Vercel
+## Resources
+- [MiniKit-JS SDK Documentation](https://developer.worldcoin.org/docs/minikit-js)
+- [World App Developer Portal](https://developer.worldcoin.org/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Build secure, bot-proof, and monetizable mini apps for World App!** 
