@@ -16,8 +16,8 @@ A sample mini app for World App that demonstrates how to build a bot-proof e-com
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-org/world-chain-tshirt-store.git
-cd world-chain-tshirt-store
+git clone https://github.com/your-username/world-app-miniapp-usdc-payments.git
+cd world-app-miniapp-usdc-payments
 ```
 
 ### 2. Install Dependencies
