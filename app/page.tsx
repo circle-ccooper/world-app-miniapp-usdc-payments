@@ -80,7 +80,7 @@ export default function TShirtStore() {
   }
 
   // --- USDC Payment Integration ---
-  // This function triggers the payment flow using USDC.e on World Chain
+  // This function triggers the payment flow using USDC on World Chain
   const handlePurchase = async () => {
     if (!MiniKit.isInstalled()) {
       alert("Please open this app in World App")
@@ -97,8 +97,8 @@ export default function TShirtStore() {
         to: "0x17C07a3F1e95A3919d6Bf8B3244A6f0e2bB2568A", // Merchant wallet address
         tokens: [
           {
-            symbol: Tokens.USDCE, // Use USDC.e as the payment token
-            token_amount: tokenToDecimals(25, Tokens.USDCE).toString(), // $25 in USDC.e (with correct decimals)
+            symbol: Tokens.USDC, // Use USDC as the payment token
+            token_amount: tokenToDecimals(25, Tokens.USDC).toString(), // $25 in USDC (with correct decimals)
           },
         ],
         description: `World Chain T-Shirt - ${selectedColor} ${selectedSize}`,
